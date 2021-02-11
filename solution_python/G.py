@@ -24,57 +24,6 @@ def is_prime(n):
     return True
 
 
-def simple_sieve(limit, primes):
-    mark = [False] * (limit + 1)
-    for i in range(2, limit+1):
-        if not mark[i]:
-            # If not marked yet,
-            # then its a prime
-            primes.append(i)
-            for j in range(i, limit+1, i):
-                mark[j] = True
-
-
-# Taken from: https://www.geeksforgeeks.org/segmented-sieve/
-# Finds all prime numbers
-# in given range using
-# segmented sieve
-def primes_in_range(low, high):
-    limit = math.floor(math.sqrt(high)) + 1
-    primes = list()
-    simple_sieve(limit, primes)
-    # Count of elements in given range
-    n = high - low + 1
-    # Declaring boolean only for [low, high]
-    mark = [True]*n
-    for i in range(len(primes)):
-        # Find the minimum number
-        # in [low..high] that is
-        # a multiple of prime[i]
-        # (divisible by prime[i])
-        loLim = math.floor(low/primes[i]) * primes[i]
-        if loLim < low:
-            loLim += primes[i]
-        if loLim == primes[i]:
-            loLim += primes[i]
-        # Mark multiples of primes[i]
-        # in [low..high]:
-        # We are marking j - low for j,
-        # i.e. each number
-        # in range [low, high] is mapped
-        # to [0, high-low]
-        # so if range is [50, 100]
-        # marking 50 corresponds
-        # to marking 0, marking 51
-        # corresponds to 1 and
-        # so on. In this way we need
-        # to allocate space
-        # only for range
-        for j in range(loLim, high+1, primes[i]):
-            mark[j-low] = False
-    return mark
-
-
 # Idea taken from: https://www.geeksforgeeks.org/distinct-permutations-string-set-2/
 def permutations(s, border):
     def permutations_inner(i, s):
